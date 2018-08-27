@@ -4,19 +4,23 @@ defmodule Surgery.Auth.User do
 
   alias Surgery.Repo
   alias Surgery.Auth.User
+  alias Surgery.Auth.Medication
 
   schema "users" do
     field :email, :string
     field :name, :string
     field :token, :string
 
+    has_many :medications, Medication
+
     timestamps()
   end
 
   # Public
 
-  def list_users do
-    Repo.all(User)
+  def get_user(id) do
+    Repo.get!(User, id)
+      |> Repo.preload([:medications])
   end
 
   def create(user) do
@@ -39,6 +43,7 @@ defmodule Surgery.Auth.User do
     |> validate_required([:name, :email, :token])
     |> unique_constraint(:email)
     |> unique_constraint(:token)
+    |> validate_format(:email, ~r/@/)
   end
 
 end

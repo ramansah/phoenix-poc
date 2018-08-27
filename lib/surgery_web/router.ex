@@ -5,8 +5,18 @@ defmodule SurgeryWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :authorize do
+    plug AuthenticationPlug
+  end
+
   scope "/api", SurgeryWeb do
     pipe_through :api
-    resources "/users", UserController, only: [:index]
+    resources "/users", UserController, only: [:index, :show]
   end
+
+  scope "/api", SurgeryWeb do
+    pipe_through [:api, :authorize]
+    resources "/medications", MedicationController, only: [:index, :create, :update]
+  end
+
 end

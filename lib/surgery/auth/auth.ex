@@ -14,7 +14,9 @@ defmodule Surgery.Auth do
   """
   def fetch_user(token) do
     case Repo.get_by(User, token: token) do
+      # Token doesn't match in DB, either a new user or token expired
       nil -> HPSService.fetch_remote_user(token) |> create_or_update_user
+      # User found in DB
       user -> {:ok, user}
     end
   end
@@ -23,8 +25,10 @@ defmodule Surgery.Auth do
 
   defp create_or_update_user(remote_user) do
     case Repo.get_by(User, email: remote_user["email"]) do
+      # New user
       nil -> User.create(remote_user)
-      user -> User.update(remote_user)
+      # Update token for existing user
+      user -> User.update(user, remote_user)
     end
   end
 
