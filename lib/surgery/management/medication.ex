@@ -1,9 +1,9 @@
-defmodule Surgery.Auth.Medication do
+defmodule Surgery.Management.Medication do
   use Ecto.Schema
   import Ecto.Changeset
 
   alias Surgery.Repo
-  alias Surgery.Auth.Medication
+  alias Surgery.Management.Medication
   alias Surgery.Auth.User
   require Ecto.Query
 

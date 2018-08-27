@@ -2,7 +2,7 @@ defmodule SurgeryWeb.MedicationController do
   use SurgeryWeb, :controller
 
   alias Surgery.Repo
-  alias Surgery.Auth.Medication
+  alias Surgery.Management.Medication
 
   action_fallback SurgeryWeb.FallbackController
 
