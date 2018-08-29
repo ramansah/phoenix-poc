@@ -7,6 +7,7 @@ defmodule Surgery.Management.Medication do
   alias Surgery.Auth.User
   require Ecto.Query
 
+
   schema "medications" do
     field :days, :integer
     field :name, :string
@@ -16,12 +17,6 @@ defmodule Surgery.Management.Medication do
   end
 
   # Public
-
-  def get_user_medications(user_id) do
-    Medication
-      |> Ecto.Query.where(user_id: ^user_id)
-      |> Repo.all()
-  end
 
   def create(medication) do
     %Medication{}
@@ -35,10 +30,12 @@ defmodule Surgery.Management.Medication do
       |> Repo.update()
   end
 
+  @fields ~w(name days user_id)a
+
   @doc false
   defp changeset(medication, attrs) do
     medication
-    |> cast(attrs, [:name, :days, :user_id])
-    |> validate_required([:name, :days, :user_id])
+    |> cast(attrs, @fields)
+    |> validate_required(@fields)
   end
 end

@@ -37,10 +37,12 @@ defmodule Surgery.Auth.User do
 
   # Private
 
+  @fields ~w(name email token)a
+
   defp changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :token])
-    |> validate_required([:name, :email, :token])
+    |> cast(attrs, @fields)
+    |> validate_required(@fields)
     |> unique_constraint(:email)
     |> unique_constraint(:token)
     |> validate_format(:email, ~r/@/)

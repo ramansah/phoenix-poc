@@ -5,9 +5,8 @@ defmodule Surgery.Auth do
 
   import Ecto.Query, warn: false
   
-  alias Surgery.Repo
+  alias Surgery.{Repo, HPSService}
   alias Surgery.Auth.User
-  alias Surgery.HPSService
 
   @doc """
   Get user from token and create/update record if necessary

@@ -4,7 +4,7 @@ defmodule Surgery.HPSService do
   """
 
   # TODO Move to config
-  @server "http://10.11.13.203:8069"
+  @server Application.get_env(:surgery, :hps_service)[:server]
 
   @doc """
   Returns user from remote server.

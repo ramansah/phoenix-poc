@@ -22,3 +22,6 @@ config :surgery, Surgery.Repo,
   database: "surgery_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :surgery, :hps_service,
+  server: "http://10.11.13.203:8069"

@@ -3,12 +3,13 @@ defmodule SurgeryWeb.MedicationController do
 
   alias Surgery.Repo
   alias Surgery.Management.Medication
+  alias Surgery.Management
 
   action_fallback SurgeryWeb.FallbackController
 
   def index(conn, _params) do
     user = conn.assigns.current_user
-    medications = Medication.get_user_medications(user.id)
+    medications = Management.get_user_medications(user.id)
     render(conn, "index.json", medications: medications)
   end
 
