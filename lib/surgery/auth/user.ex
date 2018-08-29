@@ -4,7 +4,7 @@ defmodule Surgery.Auth.User do
 
   alias Surgery.Repo
   alias Surgery.Auth.User
-  alias Surgery.Auth.Medication
+  alias Surgery.Management.Medication
 
   schema "users" do
     field :email, :string

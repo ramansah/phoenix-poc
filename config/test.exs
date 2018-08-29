@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :surgery, Surgery.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "rails",
+  password: "rails",
   database: "surgery_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

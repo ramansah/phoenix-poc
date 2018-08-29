@@ -8,12 +8,15 @@ defmodule SurgeryWeb.UserController do
 
   def index(conn, _params) do
     users = Repo.all(User)
-    render(conn, "index.json", users: users)
+    render(conn, users: users)
   end
 
   def show(conn, %{"id" => id}) do
     user = User.get_user(id)
-    render(conn, "show.json", user: user)
+    render(
+      conn, 
+      data: user,
+      opts: [include: "medications"])
   end
 
 end

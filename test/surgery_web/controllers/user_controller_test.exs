@@ -1,17 +1,11 @@
 defmodule SurgeryWeb.UserControllerTest do
   use SurgeryWeb.ConnCase
 
-  alias Surgery.Auth
   alias Surgery.Auth.User
 
-  @create_attrs %{email: "some email", name: "some name", token: "some token"}
-  @update_attrs %{email: "some updated email", name: "some updated name", token: "some updated token"}
+  @create_attrs %{email: "abc@xyz.com", name: "John Doe", token: "abc123"}
+  #@update_attrs %{email: "xyz@abc.com", name: "Jane Done", token: "xyz456"}
   @invalid_attrs %{email: nil, name: nil, token: nil}
-
-  def fixture(:user) do
-    {:ok, user} = Auth.create_user(@create_attrs)
-    user
-  end
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -20,64 +14,20 @@ defmodule SurgeryWeb.UserControllerTest do
   describe "index" do
     test "lists all users", %{conn: conn} do
       conn = get conn, user_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
+      assert json_response(conn, 200)["users"] == []
     end
   end
 
   describe "create user" do
-    test "renders user when data is valid", %{conn: conn} do
-      conn = post conn, user_path(conn, :create), user: @create_attrs
-      assert %{"id" => id} = json_response(conn, 201)["data"]
-
-      conn = get conn, user_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "email" => "some email",
-        "name" => "some name",
-        "token" => "some token"}
+    test "renders user when data is valid" do
+      {status, _} = User.create(@create_attrs)
+      assert status == :ok
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post conn, user_path(conn, :create), user: @invalid_attrs
-      assert json_response(conn, 422)["errors"] != %{}
+    test "renders errors when data is invalid" do
+      {status, _} = User.create(@invalid_attrs)
+      assert status == :error
     end
   end
 
-  describe "update user" do
-    setup [:create_user]
-
-    test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
-      conn = put conn, user_path(conn, :update, user), user: @update_attrs
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
-      conn = get conn, user_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "email" => "some updated email",
-        "name" => "some updated name",
-        "token" => "some updated token"}
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, user: user} do
-      conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
-      assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
-
-  describe "delete user" do
-    setup [:create_user]
-
-    test "deletes chosen user", %{conn: conn, user: user} do
-      conn = delete conn, user_path(conn, :delete, user)
-      assert response(conn, 204)
-      assert_error_sent 404, fn ->
-        get conn, user_path(conn, :show, user)
-      end
-    end
-  end
-
-  defp create_user(_) do
-    user = fixture(:user)
-    {:ok, user: user}
-  end
 end

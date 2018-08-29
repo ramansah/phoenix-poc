@@ -2,7 +2,8 @@ defmodule SurgeryWeb.Router do
   use SurgeryWeb, :router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["json", "json-api"]
+    plug(JaSerializer.Deserializer)
   end
 
   pipeline :authorize do

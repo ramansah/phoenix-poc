@@ -39,7 +39,8 @@ defmodule Surgery.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:httpoison, "~> 1.0"}
+      {:httpoison, "~> 1.0"},
+      {:ja_serializer, "~> 0.13.0"}
     ]
   end
 
