@@ -1,4 +1,4 @@
-# Surgery API
+# Phoenix API
 
 To start your Phoenix server:
 
